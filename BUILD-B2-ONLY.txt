@@ -1,0 +1,16 @@
+SUNSHINE B2-ONLY - WINDOWS BUILD
+
+This source tree is modified so Sunshine's Windows audio capture is dedicated to Voicemeeter B2.
+
+GitHub build:
+1. Push this repository to GitHub, including submodules if required by the original Sunshine source.
+2. Open Actions -> Build B2-only Windows -> Run workflow.
+3. When finished, open the run and download artifact: build-Windows-AMD64.
+4. Inside the artifact, use Sunshine-Windows-AMD64-installer.msi (or the lite ZIP).
+
+Expected audio behavior:
+- Audio selected for Voicemeeter B2 is streamed.
+- Audio not routed to B2 is not streamed.
+- Steam Streaming Speakers auto-install path is disabled by this patch.
+
+NOTE: This build is unsigned. Windows SmartScreen may warn because it is a custom build.

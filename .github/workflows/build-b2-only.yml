@@ -1,0 +1,15 @@
+name: Build B2-only Windows
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    uses: ./.github/workflows/ci-windows.yml
+    with:
+      publish_release: 'false'
+      release_commit: ${{ github.sha }}
+      release_version: '2026.914.233613-b2-only'
