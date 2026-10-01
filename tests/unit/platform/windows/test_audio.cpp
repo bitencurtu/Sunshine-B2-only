@@ -243,20 +243,23 @@ namespace {
   };
 }  // namespace
 
-TEST(WindowsAudioTest, AssignedSinkTakesPriorityOverConfiguredSink) {
-  fake_device_enumerator_t enumerator {L"assigned-id"};
+TEST(WindowsAudioTest, B2OnlyIgnoresAssignedAndConfiguredSink) {
+  fake_device_enumerator_t enumerator {L"b2-id", L"Voicemeeter Out B2"};
 
+  // B2-only build must ignore both the assigned sink and config::audio.sink.
+  // Microphone initialization is expected to fail with this fake endpoint because
+  // Activate() is intentionally not implemented, but selection must still target B2.
   EXPECT_FALSE(platf::audio::tests::microphone_available("assigned-id", "configured-id", &enumerator));
   EXPECT_EQ(enumerator.get_device_calls, 1);
-  EXPECT_EQ(enumerator.last_requested_id, L"assigned-id");
+  EXPECT_EQ(enumerator.last_requested_id, L"b2-id");
 }
 
-TEST(WindowsAudioTest, ConfiguredSinkIsUsedWhenNoSinkWasAssigned) {
-  fake_device_enumerator_t enumerator {L"configured-id"};
+TEST(WindowsAudioTest, B2OnlyUsesB2WhenNoSinkWasAssigned) {
+  fake_device_enumerator_t enumerator {L"b2-id", L"Voicemeeter Out B2"};
 
   EXPECT_FALSE(platf::audio::tests::microphone_available({}, "configured-id", &enumerator));
   EXPECT_EQ(enumerator.get_device_calls, 1);
-  EXPECT_EQ(enumerator.last_requested_id, L"configured-id");
+  EXPECT_EQ(enumerator.last_requested_id, L"b2-id");
 }
 
 TEST(WindowsAudioTest, DefaultDeviceIsUsedWhenNoSinkWasRequested) {
